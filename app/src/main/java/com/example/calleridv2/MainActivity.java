@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,60 +23,35 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.calleridv2.controller.APIController;
 import com.example.calleridv2.view.CallLogScreen;
+import com.example.calleridv2.view.ProfileScreen;
 import com.example.calleridv2.view.SavedContactInfoScreen;
 import com.google.gson.JsonObject;
-import com.microsoft.graph.authentication.IAuthenticationProvider;
-import com.microsoft.graph.concurrency.ICallback;
-import com.microsoft.graph.core.ClientException;
-import com.microsoft.graph.http.IHttpRequest;
-import com.microsoft.graph.models.extensions.Drive;
-import com.microsoft.graph.models.extensions.IGraphServiceClient;
-import com.microsoft.graph.requests.extensions.GraphServiceClient;
-import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.IAccount;
-import com.microsoft.identity.client.IAuthenticationResult;
-import com.microsoft.identity.client.IPublicClientApplication;
-import com.microsoft.identity.client.ISingleAccountPublicClientApplication;
-import com.microsoft.identity.client.PublicClientApplication;
-import com.microsoft.identity.client.SilentAuthenticationCallback;
-import com.microsoft.identity.client.exception.MsalException;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public String authToken;
-    private static final String TAG = MainActivity.class.getSimpleName();
     ImageButton refreshContacts;
     /* UI & Debugging Variables */
     Button signInButton;
-    Button signOutButton;
+    TextView profile;
     JSONArray emailResponse;
     TextView logTextView;
-    TextView currentUserTextView;
     public static HashMap<String,String> contactsByPhone;
     ArrayList<String> contactsForListView;
     ListView displayContacts;
     LinearLayout contactsLayout;
     ArrayAdapter adapterForContactsList;
-    //    ProgressDialog progressDialog;
     Button displayCallLog;
     APIController apiController;
+    TextView tempText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,9 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void initializeUI(){
+        tempText=findViewById(R.id.tempText);
         signInButton = findViewById(R.id.signIn);
-        signOutButton = findViewById(R.id.clearCache);
         refreshContacts=findViewById(R.id.refreshContacts);
+
         refreshContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +95,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         logTextView = findViewById(R.id.txt_log);
-        currentUserTextView = findViewById(R.id.current_user);
+        profile=findViewById(R.id.profile);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, ProfileScreen.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
         contactsLayout=findViewById(R.id.contactsSection);
         apiController.loadLoggedInAcc();
         //Sign in user
@@ -130,13 +113,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //Sign out user
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                apiController.signOutForUser();
-            }
-        });
+
 
         //Interactive
 //        callGraphApiInteractiveButton.setOnClickListener(new View.OnClickListener() {
@@ -166,8 +145,9 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(@Nullable final IAccount account) {
         if (account != null) {
             signInButton.setEnabled(false);
-            signOutButton.setEnabled(true);
-            currentUserTextView.setText("User: "+account.getUsername());
+            signInButton.setVisibility(View.GONE);
+            logTextView.setVisibility(View.GONE);
+//            currentUserTextView.setText("User: "+account.getUsername());
             contactsLayout.setVisibility(View.VISIBLE);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -176,17 +156,22 @@ public class MainActivity extends AppCompatActivity {
             }, 3000);
         } else {
             signInButton.setEnabled(true);
-            signOutButton.setEnabled(false);
+            signInButton.setVisibility(View.VISIBLE);
             displayCallLog.setVisibility(View.GONE);
             contactsLayout.setVisibility(View.GONE);
-            currentUserTextView.setText("");
             logTextView.setText("Please Sign in to Display your informations!");
-            logTextView.setText("");
+            logTextView.setVisibility(View.VISIBLE);
+            profile.setVisibility(View.GONE);
         }
     }
     public void displayError(@NonNull final Exception exception) {
 //        logTextView.setText(exception.toString());
+        logTextView.setVisibility(View.VISIBLE);
+
         logTextView.setText("Session Expired ! Please sign in again.");
+        apiController.signOutForUser();
+        profile.setVisibility(View.GONE);
+
     }
     public void displayGraphResult(@NonNull final JsonObject graphResponse) {
         System.out.println(graphResponse);
@@ -194,15 +179,22 @@ public class MainActivity extends AppCompatActivity {
         JsonObject obj2=obj1.getAsJsonObject("user");
 
         String name=obj2.get("displayName").toString();
-        logTextView.setText("Hello "+name.replaceAll("\"",""));
-
+        logTextView.setVisibility(View.GONE);
+        String name1=name.replaceAll("\"","");
+        APIController.name=name1;
+        System.out.println("Name after replace:"+name1);
+        String[] nameSplit=name1.split(" ");
+        String initials=nameSplit[0].toUpperCase().charAt(0)+""+nameSplit[1].toUpperCase().charAt(0);
+        System.out.println(initials);
+        profile.setText(initials);
+        profile.setVisibility(View.VISIBLE);
 
     }
     public void performOperationOnSignOut() {
         final String signOutText = "Signed Out.";
-        currentUserTextView.setText("");
         Toast.makeText(getApplicationContext(), signOutText, Toast.LENGTH_SHORT)
                 .show();
+        logTextView.setVisibility(View.VISIBLE);
     }
     //Phone call
     @Override
@@ -221,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void getContactsSaleSuccess(JSONObject response){
+
         contactsByPhone=new HashMap<String,String>();
         displayContacts=findViewById(R.id.contactVolley);
         contactsForListView=new ArrayList<>();
@@ -298,10 +291,13 @@ public class MainActivity extends AppCompatActivity {
             addressComposite=contactObject.optString("address1_composite");
             emailaddress1=contactObject.optString("emailaddress1");
             contactId=contactObject.optString("contactid");
-            if(mobilephone==null || mobilephone.equals("null")){
+             if(fullname==null || fullname.equals("") || fullname.equals("null")){
+                continue;
+            }else if(mobilephone==null || mobilephone.equals("null")){
                 contactsForListView.add("Contact Name: "+fullname+"\n"+"Number: N/A");
 
-            }else{
+            }
+            else{
                 contactsForListView.add("Contact Name: "+fullname+"\n"+"Number: "+mobilephone);
 
             }
@@ -309,13 +305,26 @@ public class MainActivity extends AppCompatActivity {
 
         }
         System.out.println("+++++++++++++++++++++HashMap Content"+contactsByPhone.toString()+" "+contactsByPhone.get("423-555-0123"));
-
+        tempText.setVisibility(View.GONE);
     }
     public void graphAPIEmailSuccess(JSONObject response){
         System.out.println("+++++++Success: ");
         emailResponse=response.optJSONArray("value");
         System.out.println(emailResponse);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            if(resultCode==RESULT_OK){
+                apiController.signOutForUser();
+
+            }else{
+            }
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();

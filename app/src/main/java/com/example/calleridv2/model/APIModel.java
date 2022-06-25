@@ -1,5 +1,6 @@
 package com.example.calleridv2.model;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -58,7 +59,7 @@ public class APIModel {
 
     private ISingleAccountPublicClientApplication mSingleAccountApp;
     public String authToken;
-    private static IAccount activeAccount;
+    public static IAccount activeAccount;
     public APIModel(APIController apiController){
         this.apiController=apiController;
 
@@ -290,6 +291,7 @@ public class APIModel {
                 .get(new ICallback<Drive>() {
                     @Override
                     public void success(final Drive drive) {
+
                         apiController.displayGraphRes(drive.getRawObject());
                     }
 

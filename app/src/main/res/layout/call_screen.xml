@@ -37,13 +37,13 @@
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:background="#e6ccff"
             android:layout_marginLeft="50sp"
             android:layout_marginRight="60sp"
-            android:padding="60sp"
+            android:padding="20sp"
             android:orientation="vertical"
             >
             <TextView
@@ -58,7 +58,7 @@
                 android:drawableRight="@drawable/incoming_call_24px"/>
             <TextView
                 android:id="@+id/outputContactInfo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/addContactDynamics"

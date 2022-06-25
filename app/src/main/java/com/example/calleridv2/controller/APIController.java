@@ -1,5 +1,6 @@
 package com.example.calleridv2.controller;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -15,11 +16,13 @@ import org.json.JSONObject;
 public class APIController {
     private APIModel apiModel;
     private MainActivity mainActivity;
+    public static String name;
     public static IAccount activeAccount;
     private AppCompatActivity appCompatActivity;
     public APIController(MainActivity mainActivity){
         this.apiModel=new APIModel(this);
         this.mainActivity=mainActivity;
+        this.appCompatActivity=mainActivity;
     }
     public APIController(AppCompatActivity appCompatActivity){
         this.appCompatActivity=appCompatActivity;
@@ -36,16 +39,40 @@ public class APIController {
         return mainActivity.getApplicationContext();
     }
     public void displayError(Exception e){
-        mainActivity.displayError(e);
+
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.displayError(e);
+            }
+        });
     }
     public void displayGraphRes(JsonObject response){
-        mainActivity.displayGraphResult(response);
+
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.displayGraphResult(response);
+            }
+        });
     }
     public void handleContactsSales(JSONObject response){
-        mainActivity.getContactsSaleSuccess(response);
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.getContactsSaleSuccess(response);
+
+            }
+        });
     }
     public void handleEmailResp(JSONObject response){
-        mainActivity.graphAPIEmailSuccess(response);
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.graphAPIEmailSuccess(response);
+
+            }
+        });
     }
     //AddCallScreen
     public void addCallApi(String phoneNumber, String duration,String subject,String description,String contactId){
@@ -64,7 +91,7 @@ public class APIController {
         apiModel.loadLoggedInAcc();
     }
     public void signInForUser(){
-        apiModel.signInUser(this.mainActivity);
+        apiModel.signInUser(this.appCompatActivity);
     }
     public void signOutForUser(){
         apiModel.signOutUser();
@@ -72,5 +99,4 @@ public class APIController {
     public void getSilentToken(){
         apiModel.getAuthSilentCallback();
     }
-
 }

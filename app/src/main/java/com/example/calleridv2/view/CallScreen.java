@@ -48,13 +48,13 @@ public class CallScreen extends AppCompatActivity {
             String fullname=bundle.getString("fullname");
             String address=bundle.getString("address");
             String email=bundle.getString("email");
-            if(address==null){
+            if(address==null || address.equals("null") || address.equals("")){
                 address="No information";
             }
-            if(email==null){
+            if(email==null || email.equals("null") || email.equals("")){
                 email="No information";
             }
-            outputContactInfo.setText(fullname+"\n"+number+"\n"+"Address: "+address+"\n"+"Email: "+email);
+            outputContactInfo.setText("Name: "+fullname+"\nNumber: "+number+"\n"+"Address: "+address+"\n"+"Email: "+email);
             System.out.println("isFound:"+isFound+" number:"+number+" name:"+fullname);
 
         }

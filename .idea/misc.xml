@@ -3,10 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/drawable/call_screen_bg.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/drawable/profile_bg.xml" value="0.2703125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/drawable/splash_screen_bg.xml" value="0.1" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/activity_main.xml" value="0.21422101449275363" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/add_call_screen.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/add_contact_screen.xml" value="0.17572463768115942" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/call_log_item.xml" value="0.18206521739130435" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/call_log_screen.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/call_screen.xml" value="0.17572463768115942" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/list_item_style.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/profile_screen.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/recycler_view_row.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/saved_contact_info_screen.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CallerIdV2/app/src/main/res/layout/saved_contact_list_item.xml" value="0.17572463768115942" />
       </map>
     </option>
   </component>

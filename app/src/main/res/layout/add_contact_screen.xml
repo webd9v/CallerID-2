@@ -34,18 +34,17 @@
         app:layout_constraintVertical_bias="0.262"
         tools:layout_editor_absoluteX="-76dp"
         android:gravity="center"
-        >
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:background="#e6ccff"
+        android:layout_gravity="center"
 
-        <LinearLayout
-            android:layout_width="374dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="50sp"
-            android:layout_marginRight="60sp"
-            android:background="#e6ccff"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="60sp">
+        android:orientation="vertical"
+        android:paddingTop="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="20dp"
+        >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,9 +60,9 @@
                 />
 
             <TableLayout
-                android:layout_width="229dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stretchColumns="0">
+                android:stretchColumns="1">
 
                 <TableRow>
 
@@ -116,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="0"
-                        android:text="Mobile Phone: "
+                        android:text="Phone: "
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -134,7 +133,12 @@
 
                 </TableRow>
 
-                <TableRow android:layout_marginTop="10dp">
+            </TableLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,6 +150,8 @@
 
                     <EditText
                         android:id="@+id/emailField"
+                        android:layout_marginLeft="37dp"
+                        android:minWidth="130pt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="1"
@@ -154,14 +160,12 @@
 
                         />
 
-                </TableRow>
-            </TableLayout>
+            </LinearLayout>
             <Button
                 android:id="@+id/addContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add"
                 android:layout_marginTop="10dp"/>
-        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

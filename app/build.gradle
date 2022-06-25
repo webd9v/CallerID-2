@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.microsoft.graph:microsoft-graph:1.5.+'
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
     implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.github.fornewid:neumorphism:0.3.2'
     android {
         packagingOptions {
             resources.excludes.add("META-INF/*")
@@ -52,7 +53,9 @@ allprojects {
         mavenLocal()
         maven {
             url 'https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1'
+
         }
+        maven { url "https://jitpack.io" }
         maven {
             name "vsts-maven-adal-android"
             url "https://identitydivision.pkgs.visualstudio.com/_packaging/AndroidADAL/maven/v1"
