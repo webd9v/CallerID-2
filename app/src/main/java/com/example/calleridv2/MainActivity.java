@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         refreshContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiController.getSilentToken();
+                apiController.getContacts();
             }
         });
         displayCallLog=findViewById(R.id.displayCallLog);
@@ -109,7 +109,19 @@ public class MainActivity extends AppCompatActivity {
         //Sign in user
         signInButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                apiController.signInForUser();
+                if(signInButton.getText().toString().toLowerCase().equals("sign in")){
+                    apiController.signInForUser();
+                }
+                else{
+                    try {
+
+                    apiController.signOutForUser();
+                        System.out.println("Signed Out!");
+                    }catch (Exception e){
+                        System.out.println("Sign out failed");
+                    }
+                    signInButton.setText("sign in");
+                }
             }
         });
 
@@ -160,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
             displayCallLog.setVisibility(View.GONE);
             contactsLayout.setVisibility(View.GONE);
             logTextView.setText("Please Sign in to Display your informations!");
+            signInButton.setText("sign in");
             logTextView.setVisibility(View.VISIBLE);
             profile.setVisibility(View.GONE);
         }
@@ -169,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
         logTextView.setVisibility(View.VISIBLE);
 
         logTextView.setText("Session Expired ! Please sign in again.");
-        apiController.signOutForUser();
+
+        updateUI(null);
+        signInButton.setText("sign out");
         profile.setVisibility(View.GONE);
 
     }

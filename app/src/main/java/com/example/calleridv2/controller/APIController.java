@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 public class APIController {
     private APIModel apiModel;
-    private MainActivity mainActivity;
+    public static MainActivity mainActivity;
     public static String name;
     public static IAccount activeAccount;
     private AppCompatActivity appCompatActivity;
@@ -25,6 +25,8 @@ public class APIController {
         this.appCompatActivity=mainActivity;
     }
     public APIController(AppCompatActivity appCompatActivity){
+        this.apiModel=new APIModel(this);
+
         this.appCompatActivity=appCompatActivity;
     }
     //Controls the View
@@ -99,4 +101,5 @@ public class APIController {
     public void getSilentToken(){
         apiModel.getAuthSilentCallback();
     }
+    public void getContacts(){apiModel.getContactsSales();}
 }

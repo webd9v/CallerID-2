@@ -133,7 +133,7 @@ public class APIModel {
                 /* Update UI */
                 IAccount activeAccount=authenticationResult.getAccount();
                 APIModel.activeAccount=activeAccount;
-
+                APIController.activeAccount=activeAccount;
                 apiController.updateUI(activeAccount);
                 /* call graph */
                 callGraphAPI(authenticationResult);
@@ -365,6 +365,7 @@ public class APIModel {
             body.put("firstname",firstname);
             body.put("lastname",lastname);
             body.put("mobilephone",phoneNumber);
+            body.put("telephone1",phoneNumber);
             body.put("emailaddress1",email);
         } catch (JSONException e) {
             e.printStackTrace();

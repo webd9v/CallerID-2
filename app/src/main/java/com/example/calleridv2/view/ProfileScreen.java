@@ -21,7 +21,6 @@ public class ProfileScreen extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        APIController apiController=new APIController(ProfileScreen.this);
         setContentView(R.layout.profile_screen);
         name=findViewById(R.id.username);
         email=findViewById(R.id.email);
@@ -36,8 +35,15 @@ public class ProfileScreen extends AppCompatActivity {
             }
         });
         exit=findViewById(R.id.exitProfile);
-        name.setText("Name: "+APIController.name.toUpperCase());
-        email.setText("Email: "+APIController.activeAccount.getUsername());
+        try {
+            name.setText("Name: " + APIController.name.toUpperCase());
+            email.setText("Email: " + APIController.activeAccount.getUsername());
+            System.out.println("Name: " + APIController.name.toUpperCase()+"\tEmail: "+APIController.activeAccount.getUsername());
+        }catch (Exception e){
+            email.setText("Email: tarabaygio@gmail.com");
+            System.out.println("Setting profile info failed");
+            e.printStackTrace();
+        }
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
